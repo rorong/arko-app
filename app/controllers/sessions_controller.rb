@@ -19,7 +19,11 @@ class SessionsController < Devise::SessionsController
 
   def destroy
     user = current_user
-    super
-    user.update(otp: nil, is_otp_verified: false)
+    if user.update(otp: nil, is_otp_verified: false)
+      super
+    else
+      flash[:alert] = 'Something went wrong. Please try again.'
+      redirect_to root_path
+    end
   end
 end

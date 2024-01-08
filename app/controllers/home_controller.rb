@@ -3,15 +3,18 @@ class HomeController < ApplicationController
   before_action :set_otp_details, only: [:verify_otp]
   before_action :verify_two_factor_authentication, except: [:verify_otp, :otp_verification]
 
-  def dashboard
-  end
+  def dashboard; end
 
-  def verify_otp
-  end
+  def verify_otp; end
 
   def otp_verification
     if otp_params[:otp].present? && current_user.valid_otp?(otp_params[:otp])
-      current_user.update(is_otp_verified: true)
+      if current_user.update(is_otp_verified: true)
+        flash[:success] = "OTP sucessfullly verified"
+      else
+        flash[:alert] = "OTP could not be verified. Please try again."
+      end
+
       redirect_to root_path
     else
       flash.now[:alert] = "Invalid OTP. Please try again."
@@ -22,10 +25,9 @@ class HomeController < ApplicationController
 
   private
 
+  # redirect to verification page if user has not verified OTP after login
   def verify_two_factor_authentication
-    if current_user.present?
-      redirect_to verify_otp_path unless current_user.is_otp_verified
-    end
+    redirect_to verify_otp_path if current_user.present? && !current_user.is_otp_verified
   end
 
   def get_current_user

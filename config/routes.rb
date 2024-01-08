@@ -7,5 +7,5 @@ Rails.application.routes.draw do
   get '/verify_otp', to: 'home#verify_otp'
   post '/otp_verification', to: 'home#otp_verification'
 
-  get '/generate_export', to: 'file_export#generate_export'
+  get '/generate_export', to: 'file_exports#generate_export'
 end
