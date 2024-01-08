@@ -1,0 +1,7 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: 'Data Export') do |sheet|
+  sheet.add_row @data.first.attributes.except('created_at', 'updated_at').keys
+
+  # Add data rows
+  @data.each { |record| sheet.add_row record.attributes.except('created_at', 'updated_at').values }
+end

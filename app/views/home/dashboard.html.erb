@@ -1,0 +1,52 @@
+<% if user_signed_in? %>
+  <% table_options = get_accessible_table_names %>
+  <h1>Dashboard</h1>
+  <div>
+    <div style="float: left"></div>
+    <div style="float: right">
+      <%= link_to 'Log Out', destroy_user_session_path, method: :delete, data: { turbolinks: false } %>
+    </div>
+  </div>
+
+  <br />
+  <p style="margin: 20px 10px">
+
+  <div>
+    <div style="float: left">
+      Please select the table name for that data needs to be exported
+    </div>
+
+    <div style="float: left; margin-left: 20px">
+      <%= select_tag 'selected_option', options_for_select(table_options), id: 'table_to_export' %>
+    </div>
+  </div>
+
+  <div style="margin: 50px 10px">
+    <%= link_to 'Generate CSV', generate_export_path(selected_option: table_options.first, format: 'csv'), class: 'btn btn-primary', id: 'generate-csv-link', class: 'csv-button', remote: true %>
+
+    <%= link_to 'Generate Excel', generate_export_path(selected_option: table_options.first, format: 'xlsx'), class: 'btn btn-primary', id: 'generate-excel-link', class: 'excel-button', remote: true %>
+  </div>
+
+<% else %>
+  Please Login to proceed
+  <%= link_to 'Log In', new_user_session_path %>
+<% end %>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const tableToExport = document.getElementById('table_to_export');
+    tableToExport.addEventListener('change', function(event) {
+      event.preventDefault();
+
+      var csv_button = document.getElementById('generate-csv-link').getAttribute('href');
+      csv_button = csv_button.replace(/(\?|&)selected_option=[^&]*/, "");
+      var separator = csv_button.includes('?') ? '&' : '?';
+      document.getElementById('generate-csv-link').setAttribute('href', csv_button + separator + "selected_option=" + event.target.value );
+
+      var excel_button = document.getElementById('generate-excel-link').getAttribute('href');
+      excel_button = excel_button.replace(/(\?|&)selected_option=[^&]*/, "");
+      separator = excel_button.includes('?') ? '&' : '?';
+      document.getElementById('generate-excel-link').setAttribute('href', excel_button + separator + "selected_option=" + event.target.value );
+    })
+  })
+</script>

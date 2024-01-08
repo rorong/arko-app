@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IntegrationApp</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+  </head>
+
+  <body>
+    <% flash.each do |type, message| %>
+      <div class="alert <%= flash_class(type) %>">
+        <%= message %>
+      </div>
+    <% end %>
+    <%= yield %>
+  </body>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const generateCsvLink = document.getElementById('generate-csv-link');
+      const generateExcelLink = document.getElementById('generate-excel-link');
+
+      generateCsvLink.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Make a direct link to the CSV endpoint
+        const csvUrl = this.href;
+
+        // Trigger a download by creating a hidden link
+        const hiddenLink = document.createElement('a');
+        hiddenLink.href = csvUrl;
+        hiddenLink.download = 'data_export.csv';
+        hiddenLink.style.display = 'none';
+
+        document.body.appendChild(hiddenLink);
+        hiddenLink.click();
+        document.body.removeChild(hiddenLink);
+      });
+
+      generateExcelLink.addEventListener('click', function(event) {
+        event.preventDefault();
+
+        // Make a direct link to the Excel endpoint
+        const excelUrl = this.href;
+
+        // Trigger a download by creating a hidden link
+        const hiddenLink = document.createElement('a');
+        hiddenLink.href = excelUrl;
+        hiddenLink.download = 'data_export.xlsx';
+        hiddenLink.style.display = 'none';
+
+        document.body.appendChild(hiddenLink);
+        hiddenLink.click();
+        document.body.removeChild(hiddenLink);
+      });
+    });
+  </script>
+</html>
