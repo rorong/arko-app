@@ -7,13 +7,10 @@ class SessionsController < Devise::SessionsController
   def create
     self.resource = warden.authenticate!(auth_options)
     set_flash_message!(:notice, :signed_in)
-    # user successfully logged in
     sign_in(resource_name, resource)
-
-    # send otp for 2-step verification
-    TwoStepVerification.new(resource).call
-
-    # Redirect to the OTP verification page
+    TwoStepVerification.new(current_user).call
+    session[:is_otp_verified] = false
+    flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.errors.any?
     redirect_to verify_otp_path
   end
 

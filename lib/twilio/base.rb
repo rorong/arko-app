@@ -19,5 +19,6 @@ module Twilio
     def initialize_client
       @client = Twilio::REST::Client.new(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
     end
+
   end
 end

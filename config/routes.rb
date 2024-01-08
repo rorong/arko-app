@@ -5,7 +5,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#dashboard"
   get '/verify_otp', to: 'home#verify_otp'
-  post '/otp_verification', to: 'home#otp_verification'
+  post '/verify_otp', to: 'home#otp_verification'
+  get '/resend_otp', to: 'home#resend_otp'
 
   get '/generate_export', to: 'file_exports#generate_export'
 end
