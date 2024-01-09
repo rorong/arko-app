@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   private
 
   def verify_two_factor_authentication
-    redirect_to verify_otp_path unless session[:is_otp_verified]
+    redirect_to verify_otp_path if !session[:is_otp_verified].nil? && !session[:is_otp_verified].present?
   end
 
 end

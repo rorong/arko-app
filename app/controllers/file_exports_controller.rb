@@ -2,7 +2,7 @@ class FileExportsController < ApplicationController
   before_action :authenticate_user!
   before_action :fetch_data_to_export
 
-  def generate_export
+  def index
     # render error if no data present for requested table
     unless @data.present?
       flash[:alert] = 'Requested data not found'

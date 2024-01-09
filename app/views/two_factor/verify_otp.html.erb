@@ -1,0 +1,24 @@
+<h2>Verify OTP to Log in</h2>
+
+<div style="margin-bottom: 30px">
+  <%= form_tag do |f| %>
+    <div style="float: left">
+      <%= text_field_tag :otp, nil,autocomplete: "off", placeholder: "Enter OTP", onkeydown: "return (['Backspace','Delete','ArrowLeft','ArrowRight'].includes(event.code) ? true : (!isNaN(Number(event.key)) && event.code !== 'Space'))" %>
+    </div>
+
+    <div class="actions" style="float: left; margin-left: 10px">
+      <%= submit_tag "Verify Otp" %>
+    </div>
+  <% end %>
+</div>
+<br />
+
+<%= link_to 'Resend OTP', '/resend_otp', id: 'resend-otp-link', data: { turbolinks: false } %>
+
+<div id="error-message" style="display: none; color: red;">Please wait for a minute.</div>
+
+<div style="margin-top: 30px">
+  <%= form_tag(destroy_user_session_path, method: :delete) do %>
+    <%= submit_tag 'Log Out' %>
+  <% end %>
+</div>

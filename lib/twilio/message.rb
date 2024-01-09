@@ -1,6 +1,6 @@
 module Twilio
   # to handle message related services of Twilio
-  class MessageService < Base
+  class Message < Base
     # send OTP to user registered phone number
     def send_otp
       begin
@@ -11,6 +11,7 @@ module Twilio
         )
         user.update(twilio_message_sid: message.sid)
       rescue => e
+        message = 'Phone number missing' if e.message.include?("A 'To' phone number is required.")
         message = 'Invalid phone number' if e.message.include?("Invalid 'To' Phone Number")
         user.errors.add(:base, message || "Temporary issue in sending SMS. Please try again later.")
       end

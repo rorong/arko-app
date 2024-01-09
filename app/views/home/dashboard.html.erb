@@ -4,7 +4,9 @@
   <div>
     <div style="float: left"></div>
     <div style="float: right">
-      <%= link_to 'Log Out', destroy_user_session_path, method: :delete, data: { turbolinks: false } %>
+      <%= form_tag(destroy_user_session_path, method: :delete) do %>
+        <%= submit_tag 'Log Out' %>
+      <% end %>
     </div>
   </div>
 
@@ -22,31 +24,12 @@
   </div>
 
   <div style="margin: 50px 10px">
-    <%= link_to 'Generate CSV', generate_export_path(selected_option: table_options.first, format: 'csv'), class: 'btn btn-primary', id: 'generate-csv-link', class: 'csv-button', remote: true %>
+    <%= link_to 'Generate CSV', generate_export_path(selected_option: table_options.first, format: 'csv'), class: 'btn btn-primary', id: 'generate-csv-link', class: 'csv-button' %>
 
-    <%= link_to 'Generate Excel', generate_export_path(selected_option: table_options.first, format: 'xlsx'), class: 'btn btn-primary', id: 'generate-excel-link', class: 'excel-button', remote: true %>
+    <%= link_to 'Generate Excel', generate_export_path(selected_option: table_options.first, format: 'xlsx'), class: 'btn btn-primary', id: 'generate-excel-link', class: 'excel-button' %>
   </div>
 
 <% else %>
   Please Login to proceed
   <%= link_to 'Log In', new_user_session_path %>
 <% end %>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const tableToExport = document.getElementById('table_to_export');
-    tableToExport.addEventListener('change', function(event) {
-      event.preventDefault();
-
-      var csv_button = document.getElementById('generate-csv-link').getAttribute('href');
-      csv_button = csv_button.replace(/(\?|&)selected_option=[^&]*/, "");
-      var separator = csv_button.includes('?') ? '&' : '?';
-      document.getElementById('generate-csv-link').setAttribute('href', csv_button + separator + "selected_option=" + event.target.value );
-
-      var excel_button = document.getElementById('generate-excel-link').getAttribute('href');
-      excel_button = excel_button.replace(/(\?|&)selected_option=[^&]*/, "");
-      separator = excel_button.includes('?') ? '&' : '?';
-      document.getElementById('generate-excel-link').setAttribute('href', excel_button + separator + "selected_option=" + event.target.value );
-    })
-  })
-</script>

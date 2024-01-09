@@ -40,7 +40,7 @@ RSpec.describe 'FileExportController', type: :request do
           end
     
           it 'returns data successfully' do
-            expected_response = "id,email,encrypted_password,reset_password_token,reset_password_sent_at,remember_created_at,full_name,phone_number,otp,twilio_message_sid,is_otp_verified\n#{user.id},#{user.email},#{user.encrypted_password},#{user.reset_password_token},#{user.reset_password_sent_at},#{user.remember_created_at},#{user.full_name},#{user.phone_number},#{user.otp},#{user.twilio_message_sid},#{user.is_otp_verified}\n"
+            expected_response = "id,email,encrypted_password,reset_password_token,reset_password_sent_at,remember_created_at,full_name,phone_number,otp,twilio_message_sid,otp_sent_at\n#{user.id},#{user.email},#{user.encrypted_password},#{user.reset_password_token},#{user.reset_password_sent_at},#{user.remember_created_at},#{user.full_name},#{user.phone_number},#{user.otp},#{user.twilio_message_sid},#{user.otp_sent_at}\n"
             expect(response.body).to eq expected_response
           end 
         end

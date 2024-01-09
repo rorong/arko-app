@@ -1,4 +1,6 @@
 class SessionsController < Devise::SessionsController
+  skip_before_action :verify_two_factor_authentication
+
   def new
     super
   end
@@ -16,7 +18,7 @@ class SessionsController < Devise::SessionsController
 
   def destroy
     user = current_user
-    if user.update(otp: nil, is_otp_verified: false)
+    if user.update(otp: nil, otp_sent_at: nil)
       super
     else
       flash[:alert] = 'Something went wrong. Please try again.'
