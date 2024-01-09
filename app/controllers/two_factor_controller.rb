@@ -4,12 +4,8 @@ class TwoFactorController < ApplicationController
 
   # GTE /resend_otp
   def resend_otp
-    if ((DateTime.now.to_i - current_user.otp_sent_at.to_i) / 60) > 1
-      TwoStepVerification.new(current_user).call
-      flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.errors.any?
-    else
-      flash[:alert] = 'Please wait for a min to activate resend'
-    end
+    TwoStepVerification.new(current_user).call
+    flash[:alert] = current_user.errors.full_messages.join(', ') if current_user.errors.any?
     redirect_to verify_otp_path
   end
 

@@ -4,7 +4,6 @@ import "controllers"
 
 document.addEventListener('DOMContentLoaded', function() {
   const tableToExport = document.getElementById('table_to_export');
-  const resendOtpLink = document.getElementById('resend-otp-link');
 
   if (tableToExport) {
     tableToExport.addEventListener('change', function(event) {
@@ -21,19 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
       excelButtonHref = excelButtonHref.replace(/(\?|&)selected_option=[^&]*/, "");
       separator = excelButtonHref.includes('?') ? '&' : '?';
       excelLink.href = excelButtonHref + separator + "selected_option=" + event.target.value;
-    });
-  }
-
-  if (resendOtpLink) {
-    resendOtpLink.addEventListener('click', function(event) {
-      event.preventDefault();
-  
-      const time = (new Date - new Date(currentUser.otp_sent_at) ) / (1000 * 60)
-      if (time > 1) {
-        window.location.href = '/resend_otp';
-      } else {
-        document.getElementById('error-message').style.display = 'block';
-      }
     });
   }
 });

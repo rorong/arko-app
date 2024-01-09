@@ -9,7 +9,9 @@ class TwoStepVerification
   # generate OTP for 2-step verification & send SMS & mail
   def call
     return 'User missing' unless user
-    if generate_otp
+    if last_otp_sent < 1
+      user.errors.add(:base, 'Please wait for a min to activate resend')
+    elsif generate_otp
       send_otp_via_email
       send_otp_via_sms
     else
@@ -18,6 +20,11 @@ class TwoStepVerification
   end
 
   private
+
+  # returns last otp sent time wrt current time in minutes
+  def last_otp_sent
+    (DateTime.now.to_i - user.otp_sent_at.to_i) / 60
+  end
 
   # generates a random OTP for the user
   def generate_otp

@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_one :address_detail
 
   # allowed regex for phone number
-  validates :phone_number, presence: true, format: { with: VALID_PHONE_REGEX }
+  validates :phone_number, presence: true, format: { with: VALID_PHONE_REGEX, message: "must include country code (without space). eg, +91XXXXXXXXXX" }
   
   # allowed regex for email
   validates :email, presence: true, format: { with: VALID_EMAIL_REGEX }

@@ -3,19 +3,19 @@
 module ExportFiles
   # generate export file for requested data in CSV/Excel format
   class Main
-    attr_accessor :data, :format
+    attr_accessor :table, :format
 
-    def initialize(data = [], format = '')
-      @data = data
-      @format = format
+    def initialize(params)
+      @table = params[:selected_option]
+      @format = params[:format]
     end
 
     def export
       case format
       when 'csv'
-        ExportFiles::CsvType.new(data).generate
+        ExportFiles::CsvType.new(table).generate
       when 'xlsx'
-        ExportFiles::ExcelType.new(data).generate
+        ExportFiles::ExcelType.new(table).generate
       else
         []
       end

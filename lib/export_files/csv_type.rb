@@ -3,13 +3,16 @@
 module ExportFiles
   # generate export file for requested data in CSV format
   class CsvType
-    attr_accessor :data
+    attr_accessor :data, :table
 
-    def initialize(data = [])
-      @data = data
+    def initialize(table = '')
+      @table = table
+      @data = table.constantize.all rescue []
     end
 
     def generate
+      return "Requested data not found" unless data.present?
+
       generate_csv_data(data)
     end
 
