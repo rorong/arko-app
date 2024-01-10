@@ -1,9 +1,17 @@
 # README
 
 
+project specification:
+  ruby version 3.1.2
+  rails version 7.0.8
+  database postgres
 
-Create dummy data stored in seed. Run following command in terminal.
-rails db:seed
+project setup run these command: 
+  clone the project
+  move to the project directory: "cd /project-path"
+  rbenv install 3.1.2
+  Create dummy data stored in seed. Run following command in terminal.
+  rails db:create db:migrate  db:seed
 
 To send OTP via SMS -
   You need to create a test account for Twilio - https://www.twilio.com/login
