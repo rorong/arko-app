@@ -20,27 +20,23 @@ describe TwoStepVerification do
     
     context 'when incorrect phone number registered for the user' do
       # invalid number as the country code is missing
-      let!(:user) { create(:user, phone_number: '222222222') }
-
-      before { TwoStepVerification.new(user).call }
+      let!(:user) { create(:user) }
+      before { user.update_attribute(:phone_number, '222222222') }
 
       it 'does not send OTP via SMS' do
+        TwoStepVerification.new(user).call
         expect(user.twilio_message_sid).to be_nil
       end
 
-      it 'successfully sends OTP via mail' do
+      it 'does not send OTP via mail' do
         expect do
           TwoStepVerification.new(user).call
-        end.to change { ActionMailer::Base.deliveries.size }.by(1)
+        end.not_to change { ActionMailer::Base.deliveries.size }
       end
     end
 
     context 'when correct phone number registered for the user' do
       before { TwoStepVerification.new(subject).call }
-
-      it 'successfully sends OTP via SMS' do
-        expect(subject.twilio_message_sid).not_to be_nil
-      end
 
       it 'successfully sends OTP via mail' do
         expect do

@@ -3,13 +3,16 @@
 module ExportFiles
   # generate export file for requested data in CSV format
   class ExcelType
-    attr_accessor :data
+    attr_accessor :data, :table
 
-    def initialize(data = [])
-      @data = data
+    def initialize(table = '')
+      @table = table
+      @data = table.constantize.all rescue []
     end
 
     def generate
+      return "Requested data not found" unless data.present?
+
       generate_excel_data(data)
     end
 
@@ -18,7 +21,6 @@ module ExportFiles
     # create data for Excel export
     def generate_excel_data(data)
       package = Axlsx::Package.new
-      package.use_shared_strings = true
       wb = package.workbook
       wb.add_worksheet(name: 'Data Export') do |sheet|
         # Add header row excluding specified columns
