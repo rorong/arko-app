@@ -23,3 +23,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+
+function updateLinkStatus() {
+  const resendOtpLink = document.getElementById('resend-otp-link');
+  const errorMessage = document.getElementById('error-message');
+  if (resendOtpLink) {
+    const time = (new Date() - new Date(currentUser.otp_sent_at)) / (1000 * 60);
+    if (time > 1) {
+      resendOtpLink.classList.remove("disabled");
+      resendOtpLink.style.pointerEvents = 'auto';
+      errorMessage.style.display = 'none';
+    } else {
+      resendOtpLink.classList.add("disabled");
+      resendOtpLink.style.pointerEvents = 'none';
+      errorMessage.style.display = 'block';
+    }
+  }
+}
+
+updateLinkStatus();
+var intervalID = setInterval(updateLinkStatus, 1000);
+setTimeout(function() {
+    clearInterval(intervalID);
+    console.log("Interval has been canceled.");
+}, 120000);

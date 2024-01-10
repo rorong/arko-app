@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery
   before_action :authenticate_user!
   before_action :verify_two_factor_authentication
 

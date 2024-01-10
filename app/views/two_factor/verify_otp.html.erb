@@ -13,13 +13,8 @@
 </div>
 <br />
 
-<% can_resend_otp = ((DateTime.now.to_i - current_user.otp_sent_at.to_i) / 60) >= 1 %>
-<% if can_resend_otp %>
-  <%= link_to 'Resend OTP', '/resend_otp', id: 'resend-otp-link', data: { turbolinks: false } %>
-<% else %>
-  <span id="resend-otp-link" style="color: grey;"><u>Resend OTP</u></span>
-  <div id="error-message" style="color: red;">Please wait for a minute to activate resend.</div>
-<% end %>
+  <%= link_to 'Resend OTP', '/resend_otp', id: 'resend-otp-link', data: { turbolinks: false }, class: 'disabled'%>
+  <div id="error-message" style="color: red;">Please wait for a minute to send otp.</div>
 
 <div style="margin-top: 30px">
   <%= form_tag(destroy_user_session_path, method: :delete) do %>
